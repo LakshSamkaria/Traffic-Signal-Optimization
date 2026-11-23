@@ -83,3 +83,103 @@ roadIds.forEach(id => document.getElementById(id).addEventListener("input", () =
   const total = roadIds.reduce((sum, key) => sum + Math.max(0, Number(document.getElementById(key).value) || 0), 0);
   document.getElementById("totalStat").textContent = total.toLocaleString();
 }));
+
+let comparisonChartInstance = null;
+let analyticsChartInstance = null;
+
+function renderComparison(data) {
+  document.getElementById("greedyWait").textContent = data.greedy.average_wait + " s";
+  document.getElementById("fixedWait").textContent = data.fixed_time.average_wait + " s";
+  document.getElementById("waitReduction").textContent = data.waiting_time_reduction_percent + "%";
+  document.getElementById("metricNote").textContent = data.metric_note;
+  const ctx = document.getElementById("comparisonChart");
+  if (!ctx || !window.Chart) return;
+  if (comparisonChartInstance) comparisonChartInstance.destroy();
+  comparisonChartInstance = new Chart(ctx, {
+    type: "bar",
+    data: {labels: ["Greedy", "Fixed-Time"], datasets: [{
+      label: "Estimated average waiting time (seconds)",
+      data: [data.greedy.average_wait, data.fixed_time.average_wait],
+      backgroundColor: ["#20a875", "#8b9aa3"], borderRadius: 7
+    }]},
+    options: {responsive: true, plugins: {legend: {display: false}},
+      scales: {y: {beginAtZero: true, title: {display: true, text: "Seconds"}}}}
+  });
+}
+
+async function refreshHistory() {
+  const body = document.getElementById("historyBody");
+  const status = document.getElementById("historyStatus");
+  try {
+    const response = await fetch("/api/history");
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || "History unavailable");
+    body.replaceChildren();
+    if (!data.history.length) {
+      const row = body.insertRow();
+      const cell = row.insertCell();
+      cell.colSpan = 3; cell.className = "empty"; cell.textContent = "No saved runs yet.";
+    }
+    data.history.forEach(item => {
+      const row = body.insertRow();
+      [item.created_at, item.total_vehicles, item.average_wait_seconds + " s"].forEach(value => {
+        const cell = row.insertCell(); cell.textContent = value;
+      });
+    });
+    status.textContent = data.storage === "mysql"
+      ? "Connected to MySQL · showing latest 50 runs"
+      : "MySQL is not configured. Runs are not being saved.";
+  } catch (error) { status.textContent = error.message; }
+}
+
+async function refreshAnalytics() {
+  const status = document.getElementById("analyticsStatus");
+  try {
+    const response = await fetch("/api/analytics");
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || "Analytics unavailable");
+    document.getElementById("analyticsRuns").textContent = data.total_runs;
+    document.getElementById("analyticsVehicles").textContent = Number(data.total_vehicles).toLocaleString();
+    document.getElementById("analyticsWait").textContent = data.average_wait + " s";
+    if (!data.available) {
+      status.textContent = "Connect MySQL to store and display analytics.";
+      return;
+    }
+    status.textContent = "Based on the latest 12 saved optimization runs. Waiting time is a simulation estimate.";
+    const ctx = document.getElementById("analyticsChart");
+    if (!ctx || !window.Chart) return;
+    if (analyticsChartInstance) analyticsChartInstance.destroy();
+    analyticsChartInstance = new Chart(ctx, {
+      type: "line",
+      data: {labels: data.recent.map(item => "#" + item.id), datasets: [
+        {label: "Vehicles", data: data.recent.map(item => item.total_vehicles),
+          borderColor: "#20a875", backgroundColor: "rgba(32,168,117,.12)", yAxisID: "y", tension: .3},
+        {label: "Estimated wait (sec)", data: data.recent.map(item => item.average_wait_seconds),
+          borderColor: "#7186ad", backgroundColor: "rgba(113,134,173,.1)", yAxisID: "y1", tension: .3}
+      ]},
+      options: {responsive: true, interaction: {mode: "index", intersect: false},
+        scales: {y: {type: "linear", position: "left", beginAtZero: true},
+          y1: {type: "linear", position: "right", beginAtZero: true, grid: {drawOnChartArea: false}}}}
+    });
+  } catch (error) { status.textContent = error.message; }
+}
+
+const previousRenderResults = renderResults;
+renderResults = function(results, total) {
+  previousRenderResults(results, total);
+  refreshHistory();
+  refreshAnalytics();
+  fetch("/api/compare", {
+    method: "POST", headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      traffic: Object.fromEntries(roadIds.map(id => [roadNames[id], Number(document.getElementById(id).value)])),
+      min_green: Number(document.getElementById("minGreen").value),
+      max_green: Number(document.getElementById("maxGreen").value)
+    })
+  }).then(response => response.json()).then(data => {
+    if (data.greedy) renderComparison(data);
+  }).catch(() => {});
+};
+document.getElementById("refreshHistory")?.addEventListener("click", refreshHistory);
+refreshHistory();
+refreshAnalytics();
