@@ -66,7 +66,6 @@ This project is an academic simulation only. It does not control real-world traf
 1. Install MySQL Server and create/use a local MySQL account.
 2. Copy `.env.example` to `.env` and enter your MySQL credentials.
 3. Install dependencies with `pip install -r requirements.txt`.
-4. Install python-dotenv if you want Flask to load the `.env` file automatically, or set the listed environment variables in your terminal before starting the app.
-5. Run `python app.py`. The application creates the `trafficflow` database and `optimization_history` table when the configured MySQL account has permission to create databases.
+4. Run `python app.py`. The application creates the `trafficflow` database and `optimization_history` table when the configured MySQL account has permission to create databases.
 
 The dashboard comparison uses an educational estimated-wait calculation from the simulated signal cycle. It is not live traffic telemetry. MySQL must be reachable for history and analytics to persist across restarts.
