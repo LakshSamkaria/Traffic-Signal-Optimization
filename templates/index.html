@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,63 +28,175 @@
 
     <main class="main">
       <header class="topbar">
-        <div><div class="eyebrow">SMART CITY / TRAFFIC SYSTEM</div><h1>Signal Optimization</h1></div>
+        <div>
+          <div class="eyebrow">SMART CITY / TRAFFIC SYSTEM</div>
+          <h1>Signal Optimization</h1>
+        </div>
         <div class="top-pill"><span class="pulse"></span> SYSTEM READY</div>
       </header>
 
       <section class="intro">
-        <div><div class="eyebrow">INTERSECTION CONTROL</div><h2>Make every green light count.</h2><p>Analyze traffic density and generate a smarter signal schedule using Graph Theory and a Greedy Algorithm.</p></div>
+        <div>
+          <div class="eyebrow">INTERSECTION CONTROL</div>
+          <h2>Make every green light count.</h2>
+          <p>Analyze traffic density and generate a smarter signal schedule using Graph Theory and a Greedy Algorithm.</p>
+        </div>
         <div class="intro-icon">⌁</div>
       </section>
 
       <section class="stats">
-        <article class="stat-card"><div class="stat-head">TOTAL VEHICLES <span>↗</span></div><div class="stat-value" id="totalStat">—</div><div class="stat-foot">Across all connected roads</div></article>
-        <article class="stat-card"><div class="stat-head">ROADS ANALYZED <span>⌖</span></div><div class="stat-value">04</div><div class="stat-foot">One four-way intersection</div></article>
-        <article class="stat-card"><div class="stat-head">ALGORITHM <span>◈</span></div><div class="stat-value word-stat">GREEDY</div><div class="stat-foot">Highest traffic gets priority</div></article>
+        <article class="stat-card">
+          <div class="stat-head">TOTAL VEHICLES <span>↗</span></div>
+          <div class="stat-value" id="totalStat">—</div>
+          <div class="stat-foot">Across all connected roads</div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-head">ROADS ANALYZED <span>⌖</span></div>
+          <div class="stat-value">04</div>
+          <div class="stat-foot">One four-way intersection</div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-head">ALGORITHM <span>◈</span></div>
+          <div class="stat-value word-stat">GREEDY</div>
+          <div class="stat-foot">Highest traffic gets priority</div>
+        </article>
       </section>
 
       <div class="content-grid">
         <section class="panel input-panel">
-          <div class="panel-heading"><div><div class="eyebrow">STEP 01</div><h3>Traffic input</h3></div><span class="tag">MANUAL ENTRY</span></div>
-          <p class="panel-desc">Enter the number of waiting vehicles on each road.</p>
-          <div class="road-inputs">
-            <label class="road-field"><span class="road-symbol north">↑</span><span class="road-name">North Road<small>Road A</small></span><input type="number" min="0" max="999" value="25" id="north"></label>
-            <label class="road-field"><span class="road-symbol east">→</span><span class="road-name">East Road<small>Road B</small></span><input type="number" min="0" max="999" value="40" id="east"></label>
-            <label class="road-field"><span class="road-symbol south">↓</span><span class="road-name">South Road<small>Road C</small></span><input type="number" min="0" max="999" value="15" id="south"></label>
-            <label class="road-field"><span class="road-symbol west">←</span><span class="road-name">West Road<small>Road D</small></span><input type="number" min="0" max="999" value="30" id="west"></label>
+          <div class="panel-heading">
+            <div>
+              <div class="eyebrow">STEP 01</div>
+              <h3>Traffic input</h3>
+            </div>
+            <span class="tag">MANUAL ENTRY</span>
           </div>
-          <div class="timing-row"><label>Minimum green time <select id="minGreen"><option value="5">5 sec</option><option value="10" selected>10 sec</option><option value="15">15 sec</option></select></label><label>Maximum green time <select id="maxGreen"><option value="30">30 sec</option><option value="45">45 sec</option><option value="60" selected>60 sec</option><option value="90">90 sec</option></select></label></div>
+          <p class="panel-desc">Enter the number of waiting vehicles on each road.</p>
+
+          <div class="road-inputs">
+            <label class="road-field">
+              <span class="road-symbol north">↑</span>
+              <span class="road-name">North Road<small>Road A</small></span>
+              <input type="number" min="0" max="999" value="25" id="north">
+            </label>
+            <label class="road-field">
+              <span class="road-symbol east">→</span>
+              <span class="road-name">East Road<small>Road B</small></span>
+              <input type="number" min="0" max="999" value="40" id="east">
+            </label>
+            <label class="road-field">
+              <span class="road-symbol south">↓</span>
+              <span class="road-name">South Road<small>Road C</small></span>
+              <input type="number" min="0" max="999" value="15" id="south">
+            </label>
+            <label class="road-field">
+              <span class="road-symbol west">←</span>
+              <span class="road-name">West Road<small>Road D</small></span>
+              <input type="number" min="0" max="999" value="30" id="west">
+            </label>
+          </div>
+
+          <div class="timing-row">
+            <label>Minimum green time
+              <select id="minGreen">
+                <option value="5">5 sec</option>
+                <option value="10" selected>10 sec</option>
+                <option value="15">15 sec</option>
+              </select>
+            </label>
+            <label>Maximum green time
+              <select id="maxGreen">
+                <option value="30">30 sec</option>
+                <option value="45">45 sec</option>
+                <option value="60" selected>60 sec</option>
+                <option value="90">90 sec</option>
+              </select>
+            </label>
+          </div>
+
           <button class="primary-btn" id="runBtn"><span>Run optimization</span><b>→</b></button>
           <button class="reset-btn" id="resetBtn">Reset sample values</button>
           <div class="error" id="error" role="alert"></div>
         </section>
 
         <section class="panel visual-panel">
-          <div class="panel-heading"><div><div class="eyebrow">LIVE PREVIEW</div><h3>Intersection view</h3></div><span class="live-tag"><i></i> SIMULATION</span></div>
+          <div class="panel-heading">
+            <div>
+              <div class="eyebrow">LIVE PREVIEW</div>
+              <h3>Intersection view</h3>
+            </div>
+            <span class="live-tag"><i></i> SIMULATION</span>
+          </div>
+
           <div class="intersection-wrap">
-            <div class="road-horizontal"></div><div class="road-vertical"></div>
-            <div class="lane-mark horizontal-mark"></div><div class="lane-mark vertical-mark"></div>
+            <div class="road-horizontal"></div>
+            <div class="road-vertical"></div>
+            <div class="lane-mark horizontal-mark"></div>
+            <div class="lane-mark vertical-mark"></div>
             <div class="intersection-center"><div class="center-label">4-WAY<br>JUNCTION</div></div>
             <div class="signal signal-n" id="signalNorth"><i></i><i></i><i></i></div>
             <div class="signal signal-e" id="signalEast"><i></i><i></i><i></i></div>
             <div class="signal signal-s" id="signalSouth"><i></i><i></i><i></i></div>
             <div class="signal signal-w" id="signalWest"><i></i><i></i><i></i></div>
-            <span class="road-label label-n">NORTH</span><span class="road-label label-e">EAST</span><span class="road-label label-s">SOUTH</span><span class="road-label label-w">WEST</span>
+            <span class="road-label label-n">NORTH</span>
+            <span class="road-label label-e">EAST</span>
+            <span class="road-label label-s">SOUTH</span>
+            <span class="road-label label-w">WEST</span>
           </div>
-          <div class="legend"><span><i class="legend-green"></i> Green: selected road</span><span><i class="legend-red"></i> Red: waiting</span></div>
-          <div class="current-phase"><div><small>CURRENT PRIORITY</small><strong id="currentRoad">Run optimization</strong></div><div class="phase-time"><strong id="currentTime">--</strong><small>SECONDS</small></div></div>
+
+          <div class="legend">
+            <span><i class="legend-green"></i> Green: selected road</span>
+            <span><i class="legend-red"></i> Red: waiting</span>
+          </div>
+
+          <div class="current-phase">
+            <div>
+              <small>CURRENT PRIORITY</small>
+              <strong id="currentRoad">Run optimization</strong>
+            </div>
+            <div class="phase-time">
+              <strong id="currentTime">--</strong>
+              <small>SECONDS</small>
+            </div>
+          </div>
         </section>
       </div>
 
       <section class="panel results-panel">
-        <div class="panel-heading"><div><div class="eyebrow">STEP 02</div><h3>Optimized signal schedule</h3></div><span class="tag" id="resultTag">AWAITING INPUT</span></div>
-        <div class="table-wrap"><table><thead><tr><th>PRIORITY</th><th>ROAD</th><th>VEHICLES</th><th>GREEN DURATION</th><th>STATUS</th></tr></thead><tbody id="resultsBody"><tr><td colspan="5" class="empty">Enter traffic data and run optimization to see results.</td></tr></tbody></table></div>
+        <div class="panel-heading">
+          <div>
+            <div class="eyebrow">STEP 02</div>
+            <h3>Optimized signal schedule</h3>
+          </div>
+          <span class="tag" id="resultTag">AWAITING INPUT</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>PRIORITY</th>
+                <th>ROAD</th>
+                <th>VEHICLES</th>
+                <th>GREEN DURATION</th>
+                <th>STATUS</th>
+              </tr>
+            </thead>
+            <tbody id="resultsBody">
+              <tr><td colspan="5" class="empty">Enter traffic data and run optimization to see results.</td></tr>
+            </tbody>
+          </table>
+        </div>
       </section>
-
 
       <section class="feature-grid" id="comparison">
         <article class="panel feature-panel">
-          <div class="panel-heading"><div><div class="eyebrow">NEW FEATURE</div><h3>Greedy vs Fixed-Time</h3></div><span class="tag">ALGORITHM COMPARISON</span></div>
+          <div class="panel-heading">
+            <div>
+              <div class="eyebrow">ALGORITHM COMPARISON</div>
+              <h3>Greedy vs Fixed-Time</h3>
+            </div>
+            <span class="tag">ALGORITHM COMPARISON</span>
+          </div>
           <p class="panel-desc">Compare both approaches using the current traffic input.</p>
           <div class="comparison-metrics">
             <div><small>GREEDY EST. WAIT</small><strong id="greedyWait">—</strong></div>
@@ -93,15 +206,38 @@
           <canvas id="comparisonChart" height="150"></canvas>
           <p class="metric-note" id="metricNote">Run optimization to calculate a comparison.</p>
         </article>
+
         <article class="panel feature-panel" id="history">
-          <div class="panel-heading"><div><div class="eyebrow">NEW FEATURE</div><h3>Optimization history</h3></div><button class="small-btn" id="refreshHistory">Refresh</button></div>
+          <div class="panel-heading">
+            <div>
+              <div class="eyebrow">TRAFFIC RECORDS</div>
+              <h3>Optimization history</h3>
+            </div>
+            <button class="small-btn" id="refreshHistory">Refresh</button>
+          </div>
           <p class="panel-desc">Latest saved optimization runs from MySQL.</p>
-          <div class="table-wrap"><table><thead><tr><th>DATE</th><th>VEHICLES</th><th>AVG. WAIT</th></tr></thead><tbody id="historyBody"><tr><td colspan="3" class="empty">Loading history…</td></tr></tbody></table></div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>DATE</th><th>VEHICLES</th><th>AVG. WAIT</th></tr>
+              </thead>
+              <tbody id="historyBody">
+                <tr><td colspan="3" class="empty">Loading history…</td></tr>
+              </tbody>
+            </table>
+          </div>
           <p class="metric-note" id="historyStatus">Checking database connection…</p>
         </article>
       </section>
+
       <section class="panel analytics-panel" id="analytics">
-        <div class="panel-heading"><div><div class="eyebrow">NEW FEATURE</div><h3>Traffic analytics</h3></div><span class="tag">MYSQL DATA</span></div>
+        <div class="panel-heading">
+          <div>
+            <div class="eyebrow">PERFORMANCE OVERVIEW</div>
+            <h3>Traffic analytics</h3>
+          </div>
+          <span class="tag">MYSQL DATA</span>
+        </div>
         <div class="analytics-summary">
           <div><small>TOTAL SAVED RUNS</small><strong id="analyticsRuns">—</strong></div>
           <div><small>VEHICLES PROCESSED</small><strong id="analyticsVehicles">—</strong></div>
@@ -111,10 +247,30 @@
         <p class="metric-note" id="analyticsStatus">Analytics will appear after MySQL is configured and optimization runs are saved.</p>
       </section>
 
-      <section class="how" id="how-it-works"><div class="eyebrow">THE LOGIC BEHIND IT</div><h3>How the algorithm works</h3><div class="steps"><div><b>01</b><strong>Model the network</strong><p>Intersections are graph nodes and connecting roads are edges.</p></div><div><b>02</b><strong>Compare traffic</strong><p>Vehicle counts are compared to identify the busiest road.</p></div><div><b>03</b><strong>Allocate green time</strong><p>A greedy choice ranks roads by traffic, then assigns bounded green durations.</p></div></div></section>
-      
+      <section class="how" id="how-it-works">
+        <div class="eyebrow">THE LOGIC BEHIND IT</div>
+        <h3>How the algorithm works</h3>
+        <div class="steps">
+          <div>
+            <b>01</b>
+            <strong>Model the network</strong>
+            <p>Intersections are graph nodes and connecting roads are edges.</p>
+          </div>
+          <div>
+            <b>02</b>
+            <strong>Compare traffic</strong>
+            <p>Vehicle counts are compared to identify the busiest road.</p>
+          </div>
+          <div>
+            <b>03</b>
+            <strong>Allocate green time</strong>
+            <p>A greedy choice ranks roads by traffic, then assigns bounded green durations.</p>
+          </div>
+        </div>
+      </section>
     </main>
   </div>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
