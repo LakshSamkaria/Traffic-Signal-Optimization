@@ -53,3 +53,20 @@ To demonstrate how Data Structures and Algorithms can be applied to traffic sign
 
 ## Note
 This project is an academic simulation only. It does not control real-world traffic signals.
+
+
+## New Dashboard Features
+
+- **Optimization History:** Saves each optimization run in MySQL.
+- **Greedy vs Fixed-Time:** Compares the existing greedy schedule with an equal-duration fixed-time baseline.
+- **Traffic Analytics:** Displays saved run totals, vehicle counts and estimated waiting-time trends.
+
+## MySQL Setup
+
+1. Install MySQL Server and create/use a local MySQL account.
+2. Copy `.env.example` to `.env` and enter your MySQL credentials.
+3. Install dependencies with `pip install -r requirements.txt`.
+4. Install python-dotenv if you want Flask to load the `.env` file automatically, or set the listed environment variables in your terminal before starting the app.
+5. Run `python app.py`. The application creates the `trafficflow` database and `optimization_history` table when the configured MySQL account has permission to create databases.
+
+The dashboard comparison uses an educational estimated-wait calculation from the simulated signal cycle. It is not live traffic telemetry. MySQL must be reachable for history and analytics to persist across restarts.
