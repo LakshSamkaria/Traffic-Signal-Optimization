@@ -4,6 +4,9 @@ from collections import deque
 from datetime import datetime
 
 from flask import Flask, jsonify, render_template, request
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from database import Database
 
