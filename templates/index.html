@@ -15,6 +15,9 @@
       <div class="brand"><div class="brand-mark">T</div><span>Traffic<span class="brand-light">Flow</span></span></div>
       <div class="side-label">WORKSPACE</div>
       <a class="nav-item active" href="#"><span>▦</span> Dashboard</a>
+      <a class="nav-item" href="#comparison"><span>⇄</span> Comparison</a>
+      <a class="nav-item" href="#history"><span>◷</span> History</a>
+      <a class="nav-item" href="#analytics"><span>▥</span> Analytics</a>
       <a class="nav-item" href="#how-it-works"><span>⌘</span> How it works</a>
       <div class="sidebar-bottom">
         <div class="status-dot"></div>
@@ -77,10 +80,42 @@
         <div class="table-wrap"><table><thead><tr><th>PRIORITY</th><th>ROAD</th><th>VEHICLES</th><th>GREEN DURATION</th><th>STATUS</th></tr></thead><tbody id="resultsBody"><tr><td colspan="5" class="empty">Enter traffic data and run optimization to see results.</td></tr></tbody></table></div>
       </section>
 
+
+      <section class="feature-grid" id="comparison">
+        <article class="panel feature-panel">
+          <div class="panel-heading"><div><div class="eyebrow">NEW FEATURE</div><h3>Greedy vs Fixed-Time</h3></div><span class="tag">ALGORITHM COMPARISON</span></div>
+          <p class="panel-desc">Compare both approaches using the current traffic input.</p>
+          <div class="comparison-metrics">
+            <div><small>GREEDY EST. WAIT</small><strong id="greedyWait">—</strong></div>
+            <div><small>FIXED-TIME EST. WAIT</small><strong id="fixedWait">—</strong></div>
+            <div><small>WAIT REDUCTION</small><strong id="waitReduction">—</strong></div>
+          </div>
+          <canvas id="comparisonChart" height="150"></canvas>
+          <p class="metric-note" id="metricNote">Run optimization to calculate a comparison.</p>
+        </article>
+        <article class="panel feature-panel" id="history">
+          <div class="panel-heading"><div><div class="eyebrow">NEW FEATURE</div><h3>Optimization history</h3></div><button class="small-btn" id="refreshHistory">Refresh</button></div>
+          <p class="panel-desc">Latest saved optimization runs from MySQL.</p>
+          <div class="table-wrap"><table><thead><tr><th>DATE</th><th>VEHICLES</th><th>AVG. WAIT</th></tr></thead><tbody id="historyBody"><tr><td colspan="3" class="empty">Loading history…</td></tr></tbody></table></div>
+          <p class="metric-note" id="historyStatus">Checking database connection…</p>
+        </article>
+      </section>
+      <section class="panel analytics-panel" id="analytics">
+        <div class="panel-heading"><div><div class="eyebrow">NEW FEATURE</div><h3>Traffic analytics</h3></div><span class="tag">MYSQL DATA</span></div>
+        <div class="analytics-summary">
+          <div><small>TOTAL SAVED RUNS</small><strong id="analyticsRuns">—</strong></div>
+          <div><small>VEHICLES PROCESSED</small><strong id="analyticsVehicles">—</strong></div>
+          <div><small>AVERAGE EST. WAIT</small><strong id="analyticsWait">—</strong></div>
+        </div>
+        <canvas id="analyticsChart" height="105"></canvas>
+        <p class="metric-note" id="analyticsStatus">Analytics will appear after MySQL is configured and optimization runs are saved.</p>
+      </section>
+
       <section class="how" id="how-it-works"><div class="eyebrow">THE LOGIC BEHIND IT</div><h3>How the algorithm works</h3><div class="steps"><div><b>01</b><strong>Model the network</strong><p>Intersections are graph nodes and connecting roads are edges.</p></div><div><b>02</b><strong>Compare traffic</strong><p>Vehicle counts are compared to identify the busiest road.</p></div><div><b>03</b><strong>Allocate green time</strong><p>A greedy choice ranks roads by traffic, then assigns bounded green durations.</p></div></div></section>
       
     </main>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
